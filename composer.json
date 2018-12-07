@@ -1,0 +1,13 @@
+{
+    "name": "ph_devpc/ann-php",
+    "authors": [
+        {
+            "name": "Kurl Angelo Palaganas",
+            "email": "palaganaskurl@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {"NeuralNetwork\\": "NeuralNetwork/"}
+    }
+}
