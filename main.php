@@ -4,12 +4,25 @@ require __DIR__ . '/vendor/autoload.php';
 
 use NeuralNetwork\NeuralNetwork;
 
-$a = new NeuralNetwork(2, 1, 2, 1);
+$a = new NeuralNetwork(2, 2, 2);
 //var_dump($a->forwardPass([.05, .10]));
 
+//$train = [
+//    [-1, -1],
+//    [1, 1],
+//    [-1, -1],
+//    [1, 1]
+//];
+
 $train = [
-    [0.01, 0.02, 0.03, 0.04],
-    [0.05, 0.06, 0.07, 0.08]
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
 ];
 
-$a->backPropagate(2, 0.5, 0.000001, $train, [1, 2]);
+$a->backPropagate(50000, 0.5, 0.001, $train, [1, 10, 11, 100]);
+var_dump($a->forwardPass([0, 0])[0]->getValue());
+var_dump($a->forwardPass([0, 1])[0]->getValue());
+var_dump($a->forwardPass([1, 0])[0]->getValue());
+var_dump($a->forwardPass([1, 1])[0]->getValue());
