@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2f418b75-466d-40bf-b848-60cbfbd08afc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NeuralNetwork/InputNeuron.php" beforeDir="false" afterPath="$PROJECT_DIR$/NeuralNetwork/InputNeuron.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NeuralNetwork/NeuralNetwork.php" beforeDir="false" afterPath="$PROJECT_DIR$/NeuralNetwork/NeuralNetwork.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NeuralNetwork/Neuron.php" beforeDir="false" afterPath="$PROJECT_DIR$/NeuralNetwork/Neuron.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.php" beforeDir="false" afterPath="$PROJECT_DIR$/main.php" afterDir="false" />
@@ -49,12 +47,12 @@
           <entry key="LICENSE" value="1" />
           <entry key="gitignore" value="1" />
           <entry key="json" value="1" />
-          <entry key="php" value="18" />
+          <entry key="php" value="20" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="PHP" value="18" />
+          <entry key="PHP" value="20" />
           <entry key="PLAIN_TEXT" value="2" />
           <entry key="composer.json" value="1" />
         </counts>
@@ -62,12 +60,12 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="json" value="21" />
-          <entry key="php" value="12493" />
+          <entry key="php" value="16602" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PHP" value="12493" />
+          <entry key="PHP" value="16602" />
           <entry key="composer.json" value="21" />
         </counts>
       </usages-collector>
@@ -76,61 +74,78 @@
   <component name="FileEditorManager">
     <splitter split-orientation="vertical" split-proportion="0.5">
       <split-first>
-        <leaf>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/NeuralNetwork/Neuron.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="253">
-                  <caret line="134" column="5" lean-forward="true" selection-start-line="134" selection-start-column="5" selection-end-line="134" selection-end-column="5" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/NeuralNetwork/OutputNeuron.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="184">
-                  <caret line="8" selection-start-line="8" selection-end-line="8" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/NeuralNetwork/HiddenNeuron.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="46">
-                  <caret line="2" column="24" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/NeuralNetwork/InputNeuron.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="248">
-                  <caret line="42" column="5" lean-forward="true" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/NeuralNetwork/NeuralNetwork.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="69">
-                  <caret line="219" column="51" lean-forward="true" selection-start-line="219" selection-start-column="51" selection-end-line="219" selection-end-column="51" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
+        <splitter split-orientation="horizontal" split-proportion="0.5">
+          <split-first>
+            <leaf>
+              <file pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/NeuralNetwork/Neuron.php">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="847">
+                      <caret line="137" lean-forward="true" selection-start-line="137" selection-end-line="137" />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/NeuralNetwork/OutputNeuron.php">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="184">
+                      <caret line="8" selection-start-line="8" selection-end-line="8" />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/NeuralNetwork/HiddenNeuron.php">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="46">
+                      <caret line="2" column="24" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file pinned="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/NeuralNetwork/InputNeuron.php">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="248">
+                      <caret line="42" column="5" lean-forward="true" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file pinned="false" current-in-tab="true">
+                <entry file="file://$PROJECT_DIR$/NeuralNetwork/NeuralNetwork.php">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="203">
+                      <caret line="219" column="35" lean-forward="true" selection-start-line="219" selection-start-column="35" selection-end-line="219" selection-end-column="35" />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+            </leaf>
+          </split-first>
+          <split-second>
+            <leaf>
+              <file pinned="false" current-in-tab="true">
+                <entry file="file://$PROJECT_DIR$/NeuralNetwork/NeuralNetwork.php">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="-326">
+                      <caret line="95" lean-forward="true" selection-start-line="95" selection-end-line="95" />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+            </leaf>
+          </split-second>
+        </splitter>
       </split-first>
       <split-second>
         <leaf>
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/main.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="162">
-                  <caret line="27" column="49" lean-forward="true" selection-start-line="27" selection-start-column="49" selection-end-line="27" selection-end-column="49" />
+                <state relative-caret-position="134">
+                  <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
                 </state>
               </provider>
             </entry>
@@ -141,22 +156,10 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>$aOldHiddenNeuronBias</find>
-      <find>var_d</find>
-      <find>print_r</find>
-      <find>generateHiddenNeurons</find>
-      <find>generateInputNeurons</find>
-      <find>$aInputLayer</find>
-      <find>back</find>
-      <find>aInputL</find>
-      <find>$fDerivativeOfNetOutputWithRespectTo</find>
-      <find>$fDerivativeOfNetOutputWithRespectT</find>
-      <find>$dNetO_dOutH</find>
       <find>$aOutputData</find>
       <find>$iTrainingIndex</find>
       <find>$aNewHiddenNeuronWeights</find>
       <find>}</find>
-      <find>var_du</find>
       <find>activat</find>
       <find>setValue</find>
       <find>setVa</find>
@@ -171,13 +174,25 @@
       <find>$fError</find>
       <find>acti</find>
       <find>$dE_dOut</find>
+      <find>$aNewOutputNeuronWeights</find>
+      <find>$aOutputLayer</find>
+      <find>forwardPass</find>
+      <find>var_du</find>
+      <find>$dNetO_dW</find>
+      <find>$aOldHiddenNeuronWeights</find>
+      <find>$aOldOutputNeuronWeights</find>
+      <find>error</find>
+      <find>setWei</find>
+      <find>setSumTo</find>
+      <find>$this-&gt;for</find>
+      <find>var_d</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/NeuralNetwork/NeuralNetwork.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/NeuralNetwork/NeuralNetwork.php" root0="FORCE_HIGHLIGHTING" root1="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -303,12 +318,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1543970237902</updated>
-      <workItem from="1543970239502" duration="47165000" />
+      <workItem from="1543970239502" duration="66222000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47165000" />
+    <option name="totallyTimeSpent" value="66222000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -321,11 +336,11 @@
       <window_info anchor="bottom" id="PHP-CGI Server" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" />
-      <window_info active="true" anchor="bottom" id="Terminal" visible="true" weight="0.2444934" />
+      <window_info active="true" anchor="bottom" id="Terminal" visible="true" weight="0.2544053" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" weight="0.32929516" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3297546" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32668713" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32599118" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -373,24 +388,10 @@
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/NeuralNetwork/Layer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://D:/xampp/htdocs/dev-dashboard/lib/Payroll/libPayroll.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="138">
           <caret line="25" column="83" lean-forward="true" selection-start-line="25" selection-start-column="83" selection-end-line="25" selection-end-column="83" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/NeuralNetwork/HiddenNeuron.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="2" column="24" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -401,10 +402,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/NeuralNetwork/Neuron.php">
+    <entry file="file://$PROJECT_DIR$/NeuralNetwork/HiddenNeuron.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="134" column="5" lean-forward="true" selection-start-line="134" selection-start-column="5" selection-end-line="134" selection-end-column="5" />
+        <state relative-caret-position="46">
+          <caret line="2" column="24" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -415,17 +416,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/NeuralNetwork/Layer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/NeuralNetwork/Neuron.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="847">
+          <caret line="137" lean-forward="true" selection-start-line="137" selection-end-line="137" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="27" column="49" lean-forward="true" selection-start-line="27" selection-start-column="49" selection-end-line="27" selection-end-column="49" />
+        <state relative-caret-position="134">
+          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/NeuralNetwork/NeuralNetwork.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="69">
-          <caret line="219" column="51" lean-forward="true" selection-start-line="219" selection-start-column="51" selection-end-line="219" selection-end-column="51" />
+        <state relative-caret-position="203">
+          <caret line="219" column="35" lean-forward="true" selection-start-line="219" selection-start-column="35" selection-end-line="219" selection-end-column="35" />
         </state>
       </provider>
     </entry>

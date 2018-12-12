@@ -4,6 +4,7 @@ namespace NeuralNetwork;
 
 class NeuralNetwork
 {
+    /** @var Layer InputNeuron[] */
     private $aInputLayer;
 
     private $aHiddenLayer;
@@ -58,10 +59,9 @@ class NeuralNetwork
     private function generateOutputNeurons(int $iNumOfHiddenNeurons, int $iNumOfOutputNeurons)
     {
         $aOutputNeurons = [];
-        $aRandomWeights = $this->generateRandomWeights($iNumOfHiddenNeurons);
 
-        for ($iHiddenNeuronsCount = 0; $iHiddenNeuronsCount < $iNumOfOutputNeurons; $iHiddenNeuronsCount++) {
-            $aOutputNeurons[] = new HiddenNeuron($aRandomWeights, $this->randomDecimal());
+        for ($iOutputNeuronCount = 0; $iOutputNeuronCount < $iNumOfOutputNeurons; $iOutputNeuronCount++) {
+            $aOutputNeurons[$iOutputNeuronCount] = new HiddenNeuron($this->generateRandomWeights($iNumOfHiddenNeurons), $this->randomDecimal());
         }
 
         return $aOutputNeurons;
@@ -81,6 +81,8 @@ class NeuralNetwork
 
         foreach ($aHiddenLayer as $iIndex => $oHiddenNeuron) {
             $oHiddenNeuron->setSumToZero();
+            $oHiddenNeuron->setWeights([[.15, .20], [.25, .30]][$iIndex]);
+            $oHiddenNeuron->setBias(.35);
         }
 
         $aOutputLayer = $this->aOutputLayer;
@@ -88,6 +90,8 @@ class NeuralNetwork
         /* @var $aOutputLayer OutputNeuron[] */
         foreach ($aOutputLayer as $iIndex => $oOutputNeuron) {
             $oOutputNeuron->setSumToZero();
+            $oOutputNeuron->setWeights([[.40, .45], [.50, .55]][$iIndex]);
+            $oOutputNeuron->setBias(.60);
         }
 
         return $this->forwardPassHelper();
@@ -110,6 +114,8 @@ class NeuralNetwork
 
         foreach ($aHiddenLayer as $oHiddenNeuron) {
             $aWeights = $oHiddenNeuron->getWeights();
+            //var_dump('HIDDEN SA FORWARD');
+            //var_dump($aWeights);
 
             foreach ($aWeights as $iIndex => $fWeight) {
                 /** @var $oInputNeuron InputNeuron */
@@ -119,6 +125,7 @@ class NeuralNetwork
 
             $oHiddenNeuron->setSum($oHiddenNeuron->getBias());
             $oHiddenNeuron->activateNeuron();
+            $oHiddenNeuron->setSumToZero();
         }
     }
 
@@ -132,8 +139,11 @@ class NeuralNetwork
         /** @var $aOutputLayer OutputNeuron[] */
         foreach ($aOutputLayer as $oOutputNeuron) {
             $aWeights = $oOutputNeuron->getWeights();
+            //var_dump('OUTPUT SA FORWARD');
+            //var_dump($aWeights);
 
             foreach ($aWeights as $iIndex => $fWeight) {
+                //var_dump('From compute: ' . $iIndex . ': ' . $fWeight);
                 /** @var $oHiddenNeuron HiddenNeuron */
                 $oHiddenNeuron = $this->aHiddenLayer[$iIndex];
                 $oOutputNeuron->setSum($fWeight * $oHiddenNeuron->getValue());
@@ -141,6 +151,7 @@ class NeuralNetwork
 
             $oOutputNeuron->setSum($oOutputNeuron->getBias());
             $oOutputNeuron->activateNeuron();
+            $oOutputNeuron->setSumToZero();
         }
 
         return $aOutputLayer;
@@ -158,42 +169,35 @@ class NeuralNetwork
         $aOutputLayer = $this->aOutputLayer;
 
         $aNewHiddenNeuronWeights = [];
+        $aNewOutputNeuronWeights = [];
 
         foreach ($aHiddenLayer as $iHiddenNeuronCounter => $oHiddenNeuron) {
-            $aNewHiddenNeuronWeights[] = array_fill(0, count($aInputLayer), 0.5);
+            //$aNewHiddenNeuronWeights[] = array_fill(0, count($aInputLayer), 0.5);
+            $aNewHiddenNeuronWeights[] = $oHiddenNeuron->getWeights();
         }
 
-        $aNewOutputNeuronWeights = array_fill(0, count($this->aHiddenLayer), 0.5); // make this 2 d array
-        $aNewOutputNeuronBias = array_fill(0, count($this->aOutputLayer), 0.5);
-        $aNewHiddenNeuronBias = array_fill(0, count($this->aHiddenLayer), 0.5);
+        foreach ($aOutputLayer as $iOutputNeuronCounter => $oOutputNeuron) {
+            //$aNewOutputNeuronWeights[] = array_fill(0, count($aHiddenLayer), 0.5); // 0 kase isa lang 'yung hidden layer
+            $aNewOutputNeuronWeights[] = $oOutputNeuron->getWeights();
+        }
+
+        //$aNewOutputNeuronWeights = array_fill(0, count($this->aHiddenLayer), 0.5); // make this 2 d array
+        $aNewOutputNeuronBias = array_fill(0, count($this->aOutputLayer), 0.35);
+        $aNewHiddenNeuronBias = array_fill(0, count($this->aHiddenLayer), 0.60);
 
         $fError = 1.0;
         $iTrainingIndex = 0;
 
+        $aOldHiddenNeuronWeights = $aNewHiddenNeuronWeights;
+        $aOldOutputNeuronWeights = $aNewOutputNeuronWeights;
+
         for ($iEpochCounter = 0; $iEpochCounter < $iEpoch; $iEpochCounter++) {
             if ($fError <= $fTargetError) break;
 
-            $aOldHiddenNeuronWeights = $aNewHiddenNeuronWeights;
-            $aOldOutputNeuronWeights = $aNewOutputNeuronWeights;
-            $aOldHiddenNeuronBias = $aNewHiddenNeuronBias;
-            $aOldOutputNeuronBias = $aNewOutputNeuronBias;
-
-            $aOutputNeuron = $this->aOutputLayer;
-
-            // set weights and bias to 0.5
-            /** @var $aOutputNeuron OutputNeuron[] */
-            foreach ($aOutputNeuron as $iOutputNeuronCounter => $oOutputNeuron) {
-                $oOutputNeuron->setWeights($aOldOutputNeuronWeights);
-                $oOutputNeuron->setBias($aOldOutputNeuronBias[$iOutputNeuronCounter]);
-                $oOutputNeuron->setSumToZero();
-            }
-
-            // set weights and bias to 0.5
-            foreach ($aHiddenLayer as $iHiddenNeuronIndex => $oHiddenNeuron) {
-                $oHiddenNeuron->setWeights($aOldHiddenNeuronWeights[$iHiddenNeuronIndex]);
-                $oHiddenNeuron->setBias($aOldHiddenNeuronBias[$iHiddenNeuronIndex]);
-                $oHiddenNeuron->setSumToZero();
-            }
+            //var_dump('BACK PROP HIDDEN');
+            //var_dump($aOldHiddenNeuronWeights);
+            //var_dump('BACK PROP OUTPUT');
+            //var_dump($aOldOutputNeuronWeights);
 
             $aBackPropagationInputs = $aInputData[$iTrainingIndex];
             $mBackPropagationOutput = $aOutputData[$iTrainingIndex];
@@ -203,105 +207,71 @@ class NeuralNetwork
             }
 
             $fError = 0.0;
+            $aTotalToOut = [];
+            $aOutToNet = [];
+            $fMSE = 0.0;
 
-            foreach ($aOutputLayer as $oOutputNeuron) {
+            foreach ($aOutputLayer as $iOutputNeuronIndex => $oOutputNeuron) {
                 $fOutput = $oOutputNeuron->getValue();
-                $fError += (1 / count($aOutputLayer)) * pow($mBackPropagationOutput - $fOutput, 2); // total error
+                //var_dump('TARGET: ' . $mBackPropagationOutput[$iOutputNeuronIndex]);
+                //var_dump('OUTPUT: ' . $fOutput);
+                $fMSE = .5 * pow($mBackPropagationOutput[$iOutputNeuronIndex] - $fOutput, 2);
+                //var_dump('MSE: ' . $fMSE);
+                // eTotal mse + mse
+                $fError += $fMSE;
+
+                // Etotal / eOut
+                $aTotalToOut[] = ($mBackPropagationOutput[$iOutputNeuronIndex] - $fOutput) * -1;
+
+                $aOutToNet[] = $fOutput * (1 - $fOutput);
             }
+            var_dump('ERROR: ' . $fError);
 
-            /** @var $oOutput OutputNeuron */
-            $fOutput = $this->forwardPassHelper()[0]->getValue(); // for now get the single output
-
-            $fError = pow($mBackPropagationOutput - $fOutput, 2);
-
-            $dE_dOut = $fOutput - $mBackPropagationOutput;
-            $dOut_dNetO = 1 - pow($fOutput, 2); // Output - pow(shit) dapat nasa loob 'to ng loop per output neuron
-
-            // dito dapat may loop ng output neuron
-            /** Hidden Neuron to Output Weights */
-            foreach ($aHiddenLayer as $iNeuronCounter => $oHiddenNeuron) {
-                // ang nangyayari dito, sa hidden layer nagloloop pero iisang output lang
-                // dapat may loop sa hidden layer tapos mag
-                $dNetO_dW = $oHiddenNeuron->getValue();
-                $dE_dW = $dE_dOut * $dOut_dNetO * $dNetO_dW;
-                $aNewOutputNeuronWeights[$iNeuronCounter] = $aOldOutputNeuronWeights[$iNeuronCounter] - ($fLearningRate * $dE_dW);
-            }
-
-            /** @var $aOutputLayer OutputNeuron[] */
-            $aOutputLayer = $this->aOutputLayer;
-
-            /** Output Neuron Bias */
-            foreach ($aOutputLayer as $iIndex => $oOutputNeuron) {
-                $dNetO_dB = 1.0;
-                $dE_dB = $dE_dOut * $dOut_dNetO * $dNetO_dB;
-                $aNewOutputNeuronBias[$iIndex] = $aOldOutputNeuronBias[$iIndex] - ($fLearningRate * $dE_dB);
-            }
-
-            $dNetO_dOutH = [];
-
-            // hidden neuron
-            foreach ($aHiddenLayer as $iIndex => $oHiddenNeuron) {
-                /** @var $oOutputNeuron OutputNeuron */
-                $oOutputNeuron = $this->aOutputLayer[0];
-                $dNetO_dOutH[] = $oOutputNeuron->getWeights()[$iIndex];
-            }
-
-            $dOutH_dNetOH = [];
-
-            /** Hidden Neuron Net Value */
-            foreach ($aHiddenLayer as $oHiddenNeuron) {
-                $dOutH_dNetOH[] = 1 - pow($oHiddenNeuron->getValue(), 2);
-            }
-
-            $dNetOH_dW = [];
-
-            /** NET OH WEIGHT */
-            foreach ($aHiddenLayer as $iHiddenNeuronCounter => $oHiddenNeuron) {
-                $dNetOH_dW[] = [];
-
-                foreach ($aInputLayer as $iInputNeuronIndex => $oInputNeuron) {
-                    $dNetOH_dW[$iHiddenNeuronCounter][] = $aBackPropagationInputs[$iInputNeuronIndex];
+            foreach ($aOutputLayer as $iOutputNeuronCounter => $oOutputNeuron) {
+                foreach ($aHiddenLayer as $iHiddenNeuronCounter => $oHiddenNeuron) {
+                    $fNetToWeight = $oHiddenNeuron->getValue();
+                    $fTotalToWeight = $aTotalToOut[$iOutputNeuronCounter] * $aOutToNet[$iOutputNeuronCounter] * $fNetToWeight;
+                    //$fLastWeight = $oOutputNeuron->getWeightAtIndex($iHiddenNeuronCounter);
+                    $aNewOutputNeuronWeights[$iOutputNeuronCounter][$iHiddenNeuronCounter] = $aOldOutputNeuronWeights[$iOutputNeuronCounter][$iHiddenNeuronCounter] - ($fLearningRate * $fTotalToWeight);
                 }
             }
 
-            $dE_dWI = [];
+            $aETotalToOutH = [];
 
-            // input to hidden weight
             foreach ($aHiddenLayer as $iHiddenNeuronCounter => $oHiddenNeuron) {
-                $dE_dWI[] = [];
+                $fTotal = 0.0;
 
-                foreach ($aInputLayer as $iInputNeuronIndex => $oInputNeuron) {
-                    $dE_dWI[$iHiddenNeuronCounter][] = $dE_dOut * $dOut_dNetO * $dNetO_dOutH[$iInputNeuronIndex] * $dOutH_dNetOH[$iInputNeuronIndex] * $dNetOH_dW[$iHiddenNeuronCounter][$iInputNeuronIndex];
+                foreach ($aOutputLayer as $iOutputNeuronCounter => $oOutputNeuron) {
+                    $fOutputToHidden = $aTotalToOut[$iOutputNeuronCounter] * $aOutToNet[$iOutputNeuronCounter] * $aOldOutputNeuronWeights[$iOutputNeuronCounter][$iHiddenNeuronCounter];
+                    $fTotal += $fOutputToHidden;
+                }
+
+                $aETotalToOutH[] = $fTotal;
+            }
+
+            foreach ($aHiddenLayer as $iHiddenNeuronCounter => $oHiddenNeuron) {
+                $fOutHToNetH = $oHiddenNeuron->getValue() * (1 - $oHiddenNeuron->getValue());
+
+                foreach ($aInputLayer as $iInputNeuronCounter => $oInputNeuron) {
+                    $fETotalToWeight = $aETotalToOutH[$iHiddenNeuronCounter] * $fOutHToNetH * $oInputNeuron->getInput();
+                    $aNewHiddenNeuronWeights[$iHiddenNeuronCounter][$iInputNeuronCounter] = $aOldHiddenNeuronWeights[$iHiddenNeuronCounter][$iInputNeuronCounter] - ($fLearningRate * $fETotalToWeight);
+                    //$fLastWeight = $oHiddenNeuron->getWeightAtIndex($iInputNeuronCounter);
+                    //$oHiddenNeuron->setWeightAtIndex($iInputNeuronCounter, $fLastWeight - ($fLearningRate * $fETotalToWeight));
                 }
             }
 
-            $iNewHiddenNeuronCount = count($aNewHiddenNeuronWeights);
-
-            for ($iCounter = 0; $iCounter < $iNewHiddenNeuronCount; $iCounter++) {
-                $iInnerNeuronCount = count($aNewHiddenNeuronWeights[$iCounter]);
-
-               for($iSubCounter = 0; $iSubCounter < $iInnerNeuronCount; $iSubCounter++) {
-                   $aNewHiddenNeuronWeights[$iCounter][$iSubCounter] = $aOldHiddenNeuronWeights[$iCounter][$iSubCounter] - ($fLearningRate * $dE_dWI[$iCounter][$iSubCounter]);
-               }
+            foreach ($aOutputLayer as $iOutputNeuronCounter => $oOutputNeuron) {
+                $oOutputNeuron->setWeights($aNewOutputNeuronWeights[$iOutputNeuronCounter]);
             }
-
-            $dNetOH_dB = array_fill(0, count($aHiddenLayer), 1.0);
-
-            $dE_dBI = [];
 
             foreach ($aHiddenLayer as $iHiddenNeuronCounter => $oHiddenNeuron) {
-                $dE_dBI[] = $dE_dOut * $dOut_dNetO * $dNetO_dOutH[$iHiddenNeuronCounter] * $dOutH_dNetOH[$iHiddenNeuronCounter] * $dNetOH_dB[$iHiddenNeuronCounter];
+                $oHiddenNeuron->setWeights($aNewHiddenNeuronWeights[$iHiddenNeuronCounter]);
             }
 
-            $iHiddenOldBiasCount = count($aOldHiddenNeuronBias);
+            $this->forwardPassHelper();
 
-            for ($iCounter = 0; $iCounter < $iHiddenOldBiasCount; $iCounter++) {
-                $aNewHiddenNeuronBias[$iCounter] = $aOldHiddenNeuronBias[$iCounter] - ($fLearningRate * $dE_dBI[$iCounter]);
-            }
-
-            //foreach ($aHiddenLayer as $oHiddenNeuron) {
-            //    $oHiddenNeuron->setWeights()
-            //}
+            $aOldHiddenNeuronWeights = $aNewHiddenNeuronWeights;
+            $aOldOutputNeuronWeights = $aNewOutputNeuronWeights;
 
             $iTrainingIndex++;
 

@@ -64,6 +64,16 @@ class Neuron
         $this->aWeights = $aWeights;
     }
 
+    public function setWeightAtIndex(int $iIndex, float $fValue)
+    {
+        $this->aWeights[$iIndex] = $fValue;
+    }
+
+    public function getWeightAtIndex(int $iIndex)
+    {
+        return $this->aWeights[$iIndex];
+    }
+
     /**
      * Gets neuron bias
      * @return float
@@ -130,8 +140,8 @@ class Neuron
     {
         //var_dump($fSum);
         //return $fSum;
-        //return 1 / (1 + exp(0 - $fSum));
-        return (exp($fSum) - exp(0 - $fSum)) / (exp($fSum) + exp(0 - $fSum));
+        return 1 / (1 + exp(0 - $fSum));
+        //return (exp($fSum) - exp(0 - $fSum)) / (exp($fSum) + exp(0 - $fSum));
     }
 
     public function activateNeuron()
