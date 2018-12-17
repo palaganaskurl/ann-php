@@ -61,14 +61,29 @@ class Neuron
      */
     public function setWeights(array $aWeights)
     {
+        //var_dump('aweights before');
+        //var_dump($aWeights);
+        //print_r($this->aWeights);
         $this->aWeights = $aWeights;
+        //var_dump('aweights after');
+        //print_r($this->aWeights);
     }
 
+    /**
+     * Sets weight at given index.
+     * @param int   $iIndex
+     * @param float $fValue
+     */
     public function setWeightAtIndex(int $iIndex, float $fValue)
     {
         $this->aWeights[$iIndex] = $fValue;
     }
 
+    /**
+     * Gets weight at specific index
+     * @param int $iIndex
+     * @return mixed
+     */
     public function getWeightAtIndex(int $iIndex)
     {
         return $this->aWeights[$iIndex];
@@ -136,16 +151,22 @@ class Neuron
         $this->fValue = $fValue;
     }
 
+    /**
+     * Activates neuron
+     * @param float $fSum
+     * @return float|int
+     */
     private function activate(float $fSum)
     {
-        //var_dump($fSum);
-        //return $fSum;
-        return 1 / (1 + exp(0 - $fSum));
-        //return (exp($fSum) - exp(0 - $fSum)) / (exp($fSum) + exp(0 - $fSum));
+        return 1.0 / (1.0 + exp(0.0 - $fSum));
     }
 
+    /**
+     * Activates neuron
+     */
     public function activateNeuron()
     {
         $this->setValue($this->activate($this->getSum()));
+        $this->setSumToZero();
     }
 }
