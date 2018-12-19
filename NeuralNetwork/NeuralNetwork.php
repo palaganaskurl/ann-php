@@ -20,9 +20,10 @@ class NeuralNetwork
 
     /**
      * NeuralNetwork constructor.
-     * @param int $iNumOfInputs
-     * @param int $iNumOfHiddenNeurons
-     * @param int $iNumOfOutputNeurons
+     * @param int  $iNumOfInputs
+     * @param int  $iNumOfHiddenNeurons
+     * @param int  $iNumOfOutputNeurons
+     * @param null|array $mExistingWeightsAndBias
      */
     public function __construct(int $iNumOfInputs, int $iNumOfHiddenNeurons, int $iNumOfOutputNeurons, $mExistingWeightsAndBias = null)
     {
