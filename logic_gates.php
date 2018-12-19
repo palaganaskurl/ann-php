@@ -21,9 +21,9 @@ $aOutputData = [
 
 $oNeuralNetwork->backPropagate(100000, 0.5, 1E-18, $aTrainingData, $aOutputData);
 
-echo '<pre>';
-print_r($oNeuralNetwork->forwardPass([0, 0]));
-print_r($oNeuralNetwork->forwardPass([0, 1]));
-print_r($oNeuralNetwork->forwardPass([1, 0]));
-print_r($oNeuralNetwork->forwardPass([1, 1]));
-echo '</pre>';
+print_r($oNeuralNetwork);
+
+var_dump($oNeuralNetwork->forwardPass([0, 0])[0]->getValue());
+var_dump($oNeuralNetwork->forwardPass([0, 1])[0]->getValue());
+var_dump($oNeuralNetwork->forwardPass([1, 0])[0]->getValue());
+var_dump($oNeuralNetwork->forwardPass([1, 1])[0]->getValue());
