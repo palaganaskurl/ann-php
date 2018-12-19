@@ -24,11 +24,17 @@ class NeuralNetwork
      * @param int $iNumOfHiddenNeurons
      * @param int $iNumOfOutputNeurons
      */
-    public function __construct(int $iNumOfInputs, int $iNumOfHiddenNeurons, int $iNumOfOutputNeurons)
+    public function __construct(int $iNumOfInputs, int $iNumOfHiddenNeurons, int $iNumOfOutputNeurons, $mExistingWeightsAndBias = null)
     {
-        $this->aInputLayer = new Layer($this->generateInputNeurons($iNumOfInputs));
-        $this->aHiddenLayer = new Layer($this->generateHiddenNeurons($iNumOfInputs, $iNumOfHiddenNeurons));
-        $this->aOutputLayer = new Layer($this->generateOutputNeurons($iNumOfHiddenNeurons, $iNumOfOutputNeurons));
+        if ($mExistingWeightsAndBias === null) {
+            $this->aInputLayer = new Layer($this->generateInputNeurons($iNumOfInputs));
+            $this->aHiddenLayer = new Layer($this->generateHiddenNeurons($iNumOfInputs, $iNumOfHiddenNeurons));
+            $this->aOutputLayer = new Layer($this->generateOutputNeurons($iNumOfHiddenNeurons, $iNumOfOutputNeurons));
+        } else {
+            $this->aInputLayer = new Layer($this->generateInputNeurons($iNumOfInputs));
+            $this->aHiddenLayer = new Layer($this->generateHiddenNeurons($iNumOfInputs, $iNumOfHiddenNeurons, $mExistingWeightsAndBias['hidden']['weights'], $mExistingWeightsAndBias['hidden']['bias']));
+            $this->aOutputLayer = new Layer($this->generateOutputNeurons($iNumOfHiddenNeurons, $iNumOfOutputNeurons, $mExistingWeightsAndBias['output']['weights'], $mExistingWeightsAndBias['output']['bias']));
+        }
     }
 
     /**
@@ -51,7 +57,6 @@ class NeuralNetwork
 
         for ($iNeuronCounter = 0; $iNeuronCounter < $iNeuronCount; $iNeuronCounter++) {
             $aRandomWeights[] = $this->randomDecimal();
-            //$aRandomWeights[] = .5;
         }
 
         return $aRandomWeights;
@@ -75,19 +80,20 @@ class NeuralNetwork
 
     /**
      * Generates hidden neurons based on number of hidden neurons, weights based on number of inputs.
-     * @param int $iNumOfInputs
-     * @param int $iNumOfHiddenNeurons
+     * @param int  $iNumOfInputs
+     * @param int  $iNumOfHiddenNeurons
+     * @param null|array $mExistingWeights
+     * @param null|float $mExistingBias
      * @return array|Layer
      */
-    private function generateHiddenNeurons(int $iNumOfInputs, int $iNumOfHiddenNeurons)
+    private function generateHiddenNeurons(int $iNumOfInputs, int $iNumOfHiddenNeurons, $mExistingWeights = null, $mExistingBias = null)
     {
         $aHiddenNeurons = [];
-        $fBias = 0.5;
-        //$fBias = $this->randomDecimal();
+        $fBias = $mExistingBias === null ? $this->randomDecimal() : $mExistingBias;
 
         for ($iHiddenNeuronCounter = 0; $iHiddenNeuronCounter < $iNumOfHiddenNeurons; $iHiddenNeuronCounter++) {
-            $aHiddenNeurons[] = new HiddenNeuron($this->generateRandomWeights($iNumOfInputs), $fBias);
-            //$aHiddenNeurons[] = new HiddenNeuron($this->generateRandomWeights($iNumOfInputs), $fBias);
+            $aWeights = $mExistingWeights === null ? $this->generateRandomWeights($iNumOfInputs) : $mExistingWeights[$iHiddenNeuronCounter];
+            $aHiddenNeurons[] = new HiddenNeuron($aWeights, $fBias);
         }
 
         return $aHiddenNeurons;
@@ -95,18 +101,20 @@ class NeuralNetwork
 
     /**
      * Generates output neurons based on number of output neurons, weights based on number of hidden neurons.
-     * @param int $iNumOfHiddenNeurons
-     * @param int $iNumOfOutputNeurons
+     * @param int  $iNumOfHiddenNeurons
+     * @param int  $iNumOfOutputNeurons
+     * @param null|array $mExistingWeights
+     * @param null|float $mExistingBias
      * @return array
      */
-    private function generateOutputNeurons(int $iNumOfHiddenNeurons, int $iNumOfOutputNeurons)
+    private function generateOutputNeurons(int $iNumOfHiddenNeurons, int $iNumOfOutputNeurons, $mExistingWeights = null, $mExistingBias = null)
     {
         $aOutputNeurons = [];
-        $fBias = 0.5;
-        //$fBias = $this->randomDecimal();
+        $fBias = $mExistingBias === null ? $this->randomDecimal() : $mExistingBias;
 
         for ($iOutputNeuronCount = 0; $iOutputNeuronCount < $iNumOfOutputNeurons; $iOutputNeuronCount++) {
-            $aOutputNeurons[$iOutputNeuronCount] = new OutputNeuron($this->generateRandomWeights($iNumOfHiddenNeurons), $fBias);
+            $aWeights = $mExistingWeights === null ? $this->generateRandomWeights($iNumOfHiddenNeurons) : $mExistingWeights[$iOutputNeuronCount];
+            $aOutputNeurons[$iOutputNeuronCount] = new OutputNeuron($aWeights, $fBias);
         }
 
         return $aOutputNeurons;
@@ -126,8 +134,6 @@ class NeuralNetwork
 
         foreach ($aHiddenLayer as $iIndex => $oHiddenNeuron) {
             $oHiddenNeuron->setSumToZero();
-            //$oHiddenNeuron->setWeights([[.15, .20], [.25, .30]][$iIndex]);
-            //$oHiddenNeuron->setBias(.35);
         }
 
         $aOutputLayer = $this->aOutputLayer;
@@ -135,8 +141,6 @@ class NeuralNetwork
         /* @var $aOutputLayer OutputNeuron[] */
         foreach ($aOutputLayer as $iIndex => $oOutputNeuron) {
             $oOutputNeuron->setSumToZero();
-            //$oOutputNeuron->setWeights([[.40, .45], [.50, .55]][$iIndex]);
-            //$oOutputNeuron->setBias(.60);
         }
 
         return $this->forwardPassHelper();
@@ -220,7 +224,7 @@ class NeuralNetwork
             $aNewOutputNeuronWeights[] = $oOutputNeuron->getWeights();
         }
 
-        $iTrainingIndex = 1;
+        $iTrainingIndex = 0;
 
         $aOldHiddenNeuronWeights = $aNewHiddenNeuronWeights;
         $aOldOutputNeuronWeights = $aNewOutputNeuronWeights;
@@ -229,9 +233,7 @@ class NeuralNetwork
             $aBackPropagationInputs = $aInputData[$iTrainingIndex];
             $mBackPropagationOutput = $aOutputData[$iTrainingIndex];
 
-            foreach ($aInputLayer as $iIndex => $oInputNeuron) {
-                $oInputNeuron->setInput($aBackPropagationInputs[$iIndex]);
-            }
+            $this->forwardPass($aBackPropagationInputs);
 
             $fErrorTotal = 0.0;
             $aErrorTotalToOut = [];
@@ -270,7 +272,6 @@ class NeuralNetwork
 
             foreach ($aHiddenLayer as $iHiddenNeuronCounter => $oHiddenNeuron) {
                 $fOutHToNetH = $oHiddenNeuron->getValue() * (1 - $oHiddenNeuron->getValue());
-                //$fOutHToNetH = 1 - pow($oHiddenNeuron->getValue(), 2);
 
                 foreach ($aInputLayer as $iInputNeuronCounter => $oInputNeuron) {
                     $fETotalToWeight = $aETotalToOutH[$iHiddenNeuronCounter] * $fOutHToNetH * $oInputNeuron->getInput();
@@ -279,9 +280,7 @@ class NeuralNetwork
             }
 
             foreach ($aOutputLayer as $iOutputNeuronCounter => $oOutputNeuron) {
-                //var_dump($aNewOutputNeuronWeights[$iOutputNeuronCounter]);
                 $oOutputNeuron->setWeights($aNewOutputNeuronWeights[$iOutputNeuronCounter]);
-                //print_r($oOutputNeuron->getWeights());
             }
 
             foreach ($aHiddenLayer as $iHiddenNeuronCounter => $oHiddenNeuron) {
@@ -290,8 +289,6 @@ class NeuralNetwork
 
             if ($fErrorTotal <= $fTargetError) break;
 
-            $this->forwardPassHelper();
-
             $aOldHiddenNeuronWeights = $aNewHiddenNeuronWeights;
             $aOldOutputNeuronWeights = $aNewOutputNeuronWeights;
 
@@ -299,7 +296,5 @@ class NeuralNetwork
 
             if ($iTrainingIndex > count($aInputData) - 1) $iTrainingIndex = 0;
         }
-
-        return $this;
     }
 }

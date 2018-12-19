@@ -4,7 +4,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 use NeuralNetwork\NeuralNetwork;
 
-$oNeuralNetwork = new NeuralNetwork(2, 20, 1);
+$oNeuralNetwork = new NeuralNetwork(2, 5, 1);
 
 $aTrainingData = [
     [0, 0],
@@ -19,9 +19,11 @@ $aOutputData = [
     [1]
 ];
 
-$oNeuralNetwork->forwardPass($aTrainingData[0]);
-$oNeuralNetwork->backPropagate(1000, 0.5, 1E-18, $aTrainingData, $aOutputData);
+$oNeuralNetwork->backPropagate(100000, 0.5, 1E-18, $aTrainingData, $aOutputData);
 
 echo '<pre>';
+print_r($oNeuralNetwork->forwardPass([0, 0]));
+print_r($oNeuralNetwork->forwardPass([0, 1]));
+print_r($oNeuralNetwork->forwardPass([1, 0]));
 print_r($oNeuralNetwork->forwardPass([1, 1]));
 echo '</pre>';
