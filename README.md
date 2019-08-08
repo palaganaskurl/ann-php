@@ -1,6 +1,6 @@
 **Clone Repo**
 
-`git clone https://bitbucket.org/palaganaskurl/ann-php.git`
+`git clone https://github.com/palaganaskurl/ann-php.git`
 
 **Generate Autoload**
 
